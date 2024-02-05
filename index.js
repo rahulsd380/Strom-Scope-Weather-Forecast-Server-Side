@@ -44,6 +44,13 @@ app.post('/users', async(req, res) => {
     res.send(result);
   });
 
+  // Getting all users data for admin
+  app.get('/users', async(req, res) => {
+    console.log(req.headers);
+    const result = await userCollection.find().toArray();
+    res.send(result);
+});
+
 
     
     // Send a ping to confirm a successful connection
