@@ -52,6 +52,62 @@ app.post('/users', async(req, res) => {
 });
 
 
+//Update user status active to inactive
+app.patch('/users/inactive/:id', async(req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id)};
+  const updatedDoc = {
+    $set : {
+      status: 'inactive'
+    }
+  }
+  const result = await userCollection.updateOne(query, updatedDoc);
+  res.send(result)
+});
+
+
+//Update user status inactive to active
+app.patch('/users/active/:id', async(req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id)};
+  const updatedDoc = {
+    $set : {
+      status: 'active'
+    }
+  }
+  const result = await userCollection.updateOne(query, updatedDoc);
+  res.send(result)
+});
+
+
+//User delete
+app.delete('/users/:id', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id)};
+  const result = await userCollection.deleteOne(query);
+  res.send(result);
+});
+
+
+// Update or add more info
+app.patch('/users/:id', async(req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id)};
+  const updatedData = req.body;
+  const updatedDoc = {
+    $set : {
+      country: updatedData.country,
+      gender: updatedData.gender,
+      dob: updatedData.dob,
+      phone: updatedData.phone,
+      image: updatedData.image,
+    }
+  }
+  const result = await userCollection.updateOne(query, updatedDoc);
+  res.send(result)
+});
+
+
     
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
